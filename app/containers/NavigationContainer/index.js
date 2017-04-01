@@ -6,21 +6,24 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import Helmet from 'react-helmet';
 import selectNavigationContainer from './selectors';
 import styles from './styles.css';
+import Navigation from '../../components/Navigation';
+import { requestTopics, selectTopic } from './actions';
 
 export class NavigationContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
+
+  static propTypes = {
+    requestTopics: React.PropTypes.func.isRequired,
+  }
+
+  componentWillMount() {
+    this.props.requestTopics();
+  }
+
   render() {
     return (
-      <div className={styles.navigationContainer}>
-      <Helmet
-        title="NavigationContainer"
-        meta={[
-          { name: 'description', content: 'Description of NavigationContainer' },
-        ]}
-      />
-      </div>
+      <Navigation {...this.props}/>
     );
   }
 }
@@ -29,7 +32,8 @@ const mapStateToProps = selectNavigationContainer();
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    requestTopics: () => dispatch(requestTopics()),
+    selectTopic: (topic) => dispatch(selectTopic(topic)),
   };
 }
 
