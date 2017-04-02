@@ -5,29 +5,25 @@
 */
 
 import React from 'react';
+import AppBar from '../AppBar';
+import Drawer from '../Drawer';
 
 
 import styles from './styles.css';
 
-function Navigation( {topics, selectTopic}) {
-
-  const topicNodes = topics.map(t => (
-    <div
-    key={t.name}
-    onClick={() => selectTopic(t)}
-    >
-      {t.name}
-    </div>
-  ));
+function Navigation({ topics, selectTopic, toggleDrawer, isDrawerOpen, email }) {
 
   return (
     <div className={styles.navigation}>
-      {topicNodes}
+      <AppBar toggleDrawer={toggleDrawer} email={email}/>
+      <Drawer items={topics} selectItem={selectTopic} itemLabelAttr="name" itemKeyAttr="name" isDrawerOpen={isDrawerOpen} />
     </div>
   );
 }
 
 Navigation.propTypes = {
+  email: React.PropTypes.string,
+  toggleDrawer: React.PropTypes.func.isRequired,
   topics: React.PropTypes.arrayOf(
     React.PropTypes.shape(
       {
